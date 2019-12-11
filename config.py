@@ -17,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # title           :config.py
-# description     :pwm control for R Pi Cooling Fan
+# description     :pwm control for Sauna Electric Heater Control
 # author          :David Torrens
-# start date      :2019 11 20
+# start date      :2019 12 12
 # version         :0.1
 # python_version  :3
 
