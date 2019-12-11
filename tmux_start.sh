@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/pi/fanshim
+cd /home/pi/sauna
 echo looking to kill any old tmux sauna session
 tmux kill-session -t sauna
 echo now new tmux sauna session 
