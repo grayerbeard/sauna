@@ -15,28 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# title           :fanshim.py
+# title           :sauna.py
 # description     :pwm control for R Pi Cooling Fan, main progrm
 # author          :David Torrens
-# start date      :2019 11 20
+# start date      :2019 12 12
 # version         :0.1
 # python_version  :3
 
 # Standard library imports
-#from subprocess import call as subprocess_call
 from time import sleep as time_sleep
-#from datetime import datetime
-#from os import getpid
 from os import path
-#import sys
-#from sys import argv as sys_argv
-#from sys import exit as sys_exit
 from datetime import datetime
-#from random import randint as random_randint
-#from shutil import copyfile
-#import subprocess
-#import RPi.GPIO as GPIO
-
 import plasma
 
 # Third party imports
@@ -49,7 +38,6 @@ from utility import fileexists,pr,make_time_text
 from algorithm import class_control
 from sensors import class_my_sensors
 
-
 #Set up Config file and read it in if present
 config = class_config()
 if fileexists(config.config_filename):		
@@ -59,21 +47,6 @@ else : # no file so file needs to be writen
 	config.write_file()
 	print("New Config File Made with default values, you probably need to edit it")
 	
-############################  each below not needed ?	
-# config.log_on = False
-# config.temp_log_on = False
-# config.log_outfile = ""
-# config.temp_log_outfile = ""
-# config.scan_count = 0
-# config.ftplog_count = 0
-# config.temp_ftplog_count = 0
-# config.last_ftplog = 0
-# config.ref_sensor_index = 0
-# config.dbug = False
-# config.dbug_ftp = False
-# config.exit_flag = False
-# config.new_config_wanted = False
-
 config.scan_count = 0
 
 headings = ["Count","Temp","Throttle","Heater Pwm","Pwm Freq"]
@@ -101,20 +74,17 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		# Control
 		temp = sensor.get_temp()
 		control.calc(temp)
-		pwm.set_pwm_control_fan(control.freq,control.speed)
-		pwm.control_heater()
+		pwm.control_heater(control.freq,control.speed)
 		
-		# Logging;  log count before incrementing
+		# Logging
 		log_buffer.line_values[0] = str(round(config.scan_count,3))
-		
-		#Logging
 		log_buffer.line_values[1] = str(temp) + "%"
 		log_buffer.line_values[2] = str(round(control.throttle,1))+ "%"
 		log_buffer.line_values[3] = str(round(control.speed,1))+ "%"
 		log_buffer.line_values[4] = str(round(control.freq,1))+ "Hz"	
 		log_buffer.pr(buffer_increment_flag,0,loop_start_time,refresh_time)
 	
-		# Loop Managemnt and Watchdog
+		# Loop Managemnt
 		loop_end_time = datetime.now()
 		loop_time = (loop_end_time - loop_start_time).total_seconds()
 		config.scan_count += 1
