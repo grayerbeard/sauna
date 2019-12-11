@@ -43,6 +43,34 @@ from sys import argv as sys_argv
 from utility import pr,make_time_text,send_by_ftp
 
 
+[Scan]
+scan_delay = 10
+max_scans = 0
+
+[Log]
+log_directory = log/
+local_dir_www = /var/www/html/
+log_buffer_flag = Yes
+text_buffer_length = 20
+
+[Ftp]
+ftp_creds_filename = /home/pi/ftp_creds/ftp_creds.csv
+ftp_log_max_count = 5
+ftp_timeout = 2
+ftplog = 0
+
+[Sauna]
+max_temp = 72
+min_temp = 67
+min_speed = 40
+max_speed = 100
+min_freq = 2.0
+max_freq = 4.0
+sauna_GPIO_port = 18
+sensor4readings = 0315a80584ff
+
+
+
 class class_config:
 	def __init__(self):
 # Start of items set in config.cfg
@@ -59,14 +87,16 @@ class class_config:
 		self.ftp_log_max_count  = 5
 		self.ftp_timeout = 0.5
 		self.ftplog = 0		# Number of Value Changes before Log File is Saved to remote website, 0 means every change
-	# Fan
-		self.max_temp =  69.0
-		self.min_temp = 61.0 
-		self.min_speed = 75
-		self.max_speed = 90
+	# Sauna
+		self.max_temp =  73.0
+		self.min_temp = 67.0
+		self.min_speed = 40
+		self.max_speed = 100
 		self.min_freq = 2.0
-		self.max_freq = 5.0
-		self.brightness = 80
+		self.max_freq = 4.0
+		self.sauna_GPIO_port = 18
+		self.sensor4readings = 0315a80584ff
+		
 # End of items set in config.cfg	
 
 # Start of parameters are not saved to the config file
@@ -93,14 +123,15 @@ class class_config:
 		section = "Ftp"
 		self.ftp_creds_filename = config_read.get(section, 'ftp_creds_filename') 
 		self.ftp_log_max_count = float(config_read.get(section, 'ftp_log_max_count'))
-		section = "Fan"		
+		section = "Sauna"		
 		self.max_temp =  float(config_read.get(section, 'max_temp'))
 		self.min_temp =  float(config_read.get(section, 'min_temp'))
 		self.min_speed =  float(config_read.get(section, 'min_speed'))
 		self.max_speed =  float(config_read.get(section, 'max_speed'))
 		self.min_freq =  float(config_read.get(section, 'min_freq'))
 		self.max_freq =  float(config_read.get(section, 'max_freq'))
-		self.brightness =  float(config_read.get(section, 'brightness'))
+		self.sauna_GPIO_port =  str(config_read.get(section, 'sauna_GPIO_port'))
+		self.sensor4readings =  int(config_read.get(section, 'sensor4readings'))
 		return
 
 	def write_file(self):
@@ -120,7 +151,7 @@ class class_config:
 		config_write.add_section(section)
 		config_write.set(section, 'ftp_creds_filename',self.ftp_creds_filename)
 		config_write.set(section, 'ftp_log_max_count',self.ftp_log_max_count)
-		section = "Fan"	
+		section = "Sauna"	
 		config_write.add_section(section)	
 		config_write.set(section, 'max_temp',self.max_temp)
 		config_write.set(section, 'min_temp',self.min_temp)
@@ -128,7 +159,8 @@ class class_config:
 		config_write.set(section, 'max_speed',self.max_speed)		
 		config_write.set(section, 'min_freq',self.min_freq)
 		config_write.set(section, 'max_freq',self.max_freq)
-		config_write.set(section, 'brightness',self.max_freq)			
+		config_write.set(section, 'sauna_GPIO_port',self.sauna_GPIO_port)
+		config_write.set(section, 'sensor4readings',self.sensor4readings)
 		
 		# Writing our configuration file to 'self.config_filename'
 		pr(self.dbug, here, "ready to write new config file with default values: " , self.config_filename)
