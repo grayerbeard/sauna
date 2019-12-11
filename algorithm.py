@@ -16,19 +16,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # title           :algorithm.py
-# description     :pwm control for R Pi Cooling Fan
+# description     :pwm control sauna heater
 # author          :David Torrens
-# start date      :2019 11 20
+# start date      :2019 12 12
 # version         :0.1
 # python_version  :3
 
 # Notes
-# a python3 script to calc output parameters based on configuration and current temperature
-# where the objective is limiting maximum temperature rather than maintaining a target temperature
-# Slight improvement on method used for last few months put into separate class
-#https://en.m.wikipedia.org/wiki/Algorithm
-#https://github.com/ivmech/ivPID
-#first writen November 2019
+# 
 
 class class_control:  # for calc of freq and speed
 	def __init__(self, config):
