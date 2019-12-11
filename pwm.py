@@ -27,19 +27,13 @@ import RPi.GPIO as GPIO
 
 class class_pwm:  # For monitoring R Pi 4 Cpu 
 	def __init__(self,config):				
-		self.pwm_speed  = 0
-		self.pwm_freq = 2
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(config.sauna_GPIO_port, GPIO.OUT)
 		self.pwm_out = GPIO.PWM(config.sauna_GPIO_port,1)
 		self.pwm_out.start(0)
-		self.pwm_out.ChangeFrequency(self.pwm_freq)
-		self.pwm_out.ChangeDutyCycle(self.pwm_speed)
+		self.pwm_out.ChangeFrequency(config.min_freq)
+		self.pwm_out.ChangeDutyCycle(0)
 
-	def set_pwm_control_heater(self,freq,speed):
-		self.pwm_speed  = speed
-		self.pwm_freq = freq
-
-	def control_heater(self):
+	def control_heater(self,freq,speed):
 		self.pwm_out.ChangeFrequency(self.pwm_freq)
-		self.pwm_out.ChangeDutyCycle(self.pwm_speed)
+		self.pwm_out.ChangeDutyCycle(0)
