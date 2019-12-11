@@ -26,14 +26,14 @@
 #from subprocess import call as subprocess_call
 from time import sleep as time_sleep
 #from datetime import datetime
-from os import getpid
+#from os import getpid
 from os import path
 #import sys
-from sys import argv as sys_argv
-from sys import exit as sys_exit
+#from sys import argv as sys_argv
+#from sys import exit as sys_exit
 from datetime import datetime
-from random import randint as random_randint
-from shutil import copyfile
+#from random import randint as random_randint
+#from shutil import copyfile
 #import subprocess
 #import RPi.GPIO as GPIO
 
@@ -44,16 +44,11 @@ import plasma
 # Local application imports
 from config import class_config
 from text_buffer import class_text_buffer
-from cpu import class_cpu
+from pwm import class_pwm
 from utility import fileexists,pr,make_time_text
-
-##########################################################################
-# choose one of following two lines to choose algorithm
 from algorithm import class_control
-# from alternative_algorithm_using_quarter_spans import class_control
-#########################################################################
+from sensors import class_my_sensors
 
-cpu = class_cpu()
 
 #Set up Config file and read it in if present
 config = class_config()
@@ -64,46 +59,31 @@ else : # no file so file needs to be writen
 	config.write_file()
 	print("New Config File Made with default values, you probably need to edit it")
 	
-# Following could be used to copy html files when prog run again before get overwritten
-# make a random number string  between 1 and a thousand use to copy html files
-#random_text_number = str(random_randint(1,1001))
-#try:
-#	print("start copy using: ", random_text_number)
-#	config.status_html_filename = ""
-#	config.log_html_filename
-#	copyfile("cpu_log.html", "old/" + "cpu_log" + random_text_number + ".html")
-#	print("finish copy")
-#except:
-#	print("Cannot copy old files")
+############################  each below not needed ?	
+# config.log_on = False
+# config.temp_log_on = False
+# config.log_outfile = ""
+# config.temp_log_outfile = ""
+# config.scan_count = 0
+# config.ftplog_count = 0
+# config.temp_ftplog_count = 0
+# config.last_ftplog = 0
+# config.ref_sensor_index = 0
+# config.dbug = False
+# config.dbug_ftp = False
+# config.exit_flag = False
+# config.new_config_wanted = False
 
-############################  each below needs o be check if needed or if could be moved into config.cfg		
-config.log_on = False
-config.temp_log_on = False
-config.log_outfile = ""
-config.temp_log_outfile = ""
-config.scan_count = 0
-config.ftplog_count = 0
-config.temp_ftplog_count = 0
-config.last_ftplog = 0
-config.ref_sensor_index = 0
-config.dbug = False
-config.dbug_ftp = False
-config.exit_flag = False
-config.new_config_wanted = False
 config.scan_count = 0
 
-headings = ["Count","Cpu Load","Temp","Throttle","Fan Speed","Fan Freq","Cpu Freq","Cpu Mem","Cpu Disk","Loop Times","Message"]
-cpu_buffer = class_text_buffer(headings,config)
+headings = ["Count","Temp","Throttle","Heater Pwm","Pwm Freq"]
+log_buffer = class_text_buffer(headings,config)
 
-#Fan shim related
-plasma.set_clear_on_exit(True)
-plasma.set_light_count(1)
-plasma.set_light(0, 0, 0, 0)
-
+pwm = class_pwm(config)
 control = class_control(config)
+sensor = class_my_sensors(config)
 
 # Set The Initial Conditions
-sub_count = 0.001
 the_end_time = datetime.now()
 last_total = 0
 loop_time = 0
@@ -113,75 +93,31 @@ last_fan_state = True
 buffer_increment_flag = False
 refresh_time = 4.2*config.scan_delay
 
-went_off = datetime.now()
-went_on = datetime.now()
-time_on = 0
-time_off = 0
-
 while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 	try:
 		# Loop Management and Watchdog
 		loop_start_time = datetime.now()
 		
 		# Control
-		cpu.get_data()
-		control.calc(cpu.temp)
-		cpu.set_pwm_control_fan(control.freq,control.speed)
-		cpu.control_fan()
-		cpu.update_led_temperature(cpu.temp,config.max_temp,config.min_temp,config.brightness)
+		temp = sensor.get_temp()
+		control.calc(temp)
+		pwm.set_pwm_control_fan(control.freq,control.speed)
+		pwm.control_heater()
 		
 		# Logging;  log count before incrementing
-		cpu_buffer.line_values[0] = str(round(config.scan_count + sub_count,3))
+		log_buffer.line_values[0] = str(round(config.scan_count,3))
 		
-		# Increment Log Count
-		if control.fan_on:
-			sub_count = 0.001
-			config.scan_count += 1
-		else:
-			sub_count += 0.001
-
 		#Logging
-		cpu_buffer.line_values[1] = str(cpu.cpu_load) + "%"
-		cpu_buffer.line_values[2] = str(round(cpu.temp,2) ) + "C"
-		cpu_buffer.line_values[3] = str(round(control.throttle,1))+ "%"
-		cpu_buffer.line_values[4] = str(round(control.speed,1))+ "%"
-		cpu_buffer.line_values[5] = str(round(control.freq,1))+ "Hz"
-		cpu_buffer.line_values[6] = str(cpu.cpu_freq.current/1000) + "GHz"
-		cpu_buffer.line_values[7] = str(cpu.cpu_mem) + "%"
-		cpu_buffer.line_values[8] = str(cpu.cpu_disk) + "%"
-		cpu_buffer.line_values[9] = str(round(last_total,6)) +"s/" + str(round(loop_time,6)) +"s"
-		
-		if not(last_fan_state) and control.fan_on:
-			buffer_increment_flag = True
-		elif last_fan_state and not(control.fan_on):
-			buffer_increment_flag = True
-		elif not(last_fan_state) and not(control.fan_on):
-			buffer_increment_flag = False
-		elif last_fan_state and control.fan_on:
-			buffer_increment_flag = True
-		else:
-			print("wierd error")
-			sys_exit()
-
-		if control.fan_on:
-			if not(last_fan_state): # Then was off now on
-				went_on = loop_start_time
-			time_on = round((loop_start_time - went_on).total_seconds(),0) + config.scan_delay	
-			cpu_buffer.line_values[10] = "Fan ON"
-			last_fan_state = True
-			cpu_buffer.line_values[10] = "Fan ON : " + str(time_on)
-		else:
-			if last_fan_state: # Then was on now off
-				went_off = loop_start_time
-			time_off = round((loop_start_time - went_off).total_seconds(),0) + config.scan_delay
-			last_fan_state = False
-			cpu_buffer.line_values[10] = "Fan OFF : " + str(time_off)
-			
-		cpu_buffer.pr(buffer_increment_flag,0,loop_start_time,refresh_time)
+		log_buffer.line_values[1] = str(temp) + "%"
+		log_buffer.line_values[2] = str(round(control.throttle,1))+ "%"
+		log_buffer.line_values[3] = str(round(control.speed,1))+ "%"
+		log_buffer.line_values[4] = str(round(control.freq,1))+ "Hz"	
+		log_buffer.pr(buffer_increment_flag,0,loop_start_time,refresh_time)
 	
 		# Loop Managemnt and Watchdog
 		loop_end_time = datetime.now()
 		loop_time = (loop_end_time - loop_start_time).total_seconds()
+		config.scan_count += 1
 	
 		# Adjust the sleep time to aceive the target loop time and apply
 		# with a slow acting correction added in to gradually improve accuracy
