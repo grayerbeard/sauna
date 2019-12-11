@@ -35,17 +35,17 @@ class class_control:  # for calc of freq and speed
 		self.config = config
 		self.freq = config.min_freq
 		self.speed = 0
-		self.fan_on = False 
+		self.heater_on = False 
 
 	def calc(self,temp):
 		# Following gives 0 to 1 over range min_temp to max_temp
-		self.throttle = 100*(temp - self.config.min_temp)/(self.config.max_temp - self.config.min_temp)
+		self.throttle = 100*(self.config.max_temp - temp)/(self.config.max_temp - self.config.min_temp)
 		if self.throttle < 0 :
 			# Fan Off
 			self.freq = self.config.min_freq
 			self.speed = 0
 			self.throttle = 0
-			self.fan_on = False 
+			self.heater_on = False 
 		elif self.throttle > 100 :
 			# Fan at Max
 			self.freq = self.config.max_freq
@@ -57,5 +57,5 @@ class class_control:  # for calc of freq and speed
 			# Simarly for frequency
 			self.freq = (self.throttle*(self.config.max_freq - self.config.min_freq)/100) + self.config.min_freq
 			self.speed = (self.throttle*(self.config.max_speed - self.config.min_speed)/100) + self.config.min_speed
-			self.fan_on = True 
+			self.heater_on = True
 		
