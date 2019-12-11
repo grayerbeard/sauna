@@ -46,7 +46,7 @@ class class_control:  # for calc of freq and speed
 			self.freq = self.config.max_freq
 			self.speed = self.config.max_speed
 			self.throttle  = 100
-			self.fan_on = True 
+			self.heater_on = True 
 		else:	
 			# Fan "Throttled" between Min_speed and max_speed
 			# Simarly for frequency
