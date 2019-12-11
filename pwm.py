@@ -25,7 +25,7 @@
 
 import RPi.GPIO as GPIO
 
-class class_cpu:  # For monitoring R Pi 4 Cpu 
+class class_pwm:  # For monitoring R Pi 4 Cpu 
 	def __init__(self,config):				
 		self.pwm_speed  = 0
 		self.pwm_freq = 2
