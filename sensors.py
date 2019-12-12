@@ -45,7 +45,7 @@ class class_my_sensors:
 				temp = individual_sensor.get_temperature()
 				found = True
 			else:
-				print("Found other sensor code : ",individual_sensor.id, "  please correct entry in config.cfg))
+				print("Found other sensor code : ",individual_sensor.id, "  please correct entry in config.cfg")
 		if found:
 			return temp
 		else:
