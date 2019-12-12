@@ -101,8 +101,8 @@ class class_config:
 		self.max_speed =  float(config_read.get(section, 'max_speed'))
 		self.min_freq =  float(config_read.get(section, 'min_freq'))
 		self.max_freq =  float(config_read.get(section, 'max_freq'))
-		self.sauna_GPIO_port =  str(config_read.get(section, 'sauna_GPIO_port'))
-		self.sensor4readings =  int(config_read.get(section, 'sensor4readings'))
+		self.sauna_GPIO_port =  int(config_read.get(section, 'sauna_GPIO_port'))
+		self.sensor4readings =  str(config_read.get(section, 'sensor4readings'))
 		return
 
 	def write_file(self):
