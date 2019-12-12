@@ -66,7 +66,7 @@ class class_config:
 		self.min_freq = 2.0
 		self.max_freq = 4.0
 		self.sauna_GPIO_port = 18
-		self.sensor4readings = 0315a80584ff
+		self.sensor4readings = "0315a80584ff"
 		
 # End of items set in config.cfg	
 
