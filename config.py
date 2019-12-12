@@ -42,35 +42,6 @@ from sys import argv as sys_argv
 # Local application imports
 from utility import pr,make_time_text,send_by_ftp
 
-
-[Scan]
-scan_delay = 10
-max_scans = 0
-
-[Log]
-log_directory = log/
-local_dir_www = /var/www/html/
-log_buffer_flag = Yes
-text_buffer_length = 20
-
-[Ftp]
-ftp_creds_filename = /home/pi/ftp_creds/ftp_creds.csv
-ftp_log_max_count = 5
-ftp_timeout = 2
-ftplog = 0
-
-[Sauna]
-max_temp = 72
-min_temp = 67
-min_speed = 40
-max_speed = 100
-min_freq = 2.0
-max_freq = 4.0
-sauna_GPIO_port = 18
-sensor4readings = 0315a80584ff
-
-
-
 class class_config:
 	def __init__(self):
 # Start of items set in config.cfg
