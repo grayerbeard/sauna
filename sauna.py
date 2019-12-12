@@ -72,7 +72,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		
 		# Control
 		#temp = sensor.get_temp(config.sensor4readings)
-		temp = 123
+		temp = 29
 		control.calc(temp)
 		pwm.control_heater(control.freq,control.speed)
 		
