@@ -71,7 +71,8 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		loop_start_time = datetime.now()
 		
 		# Control
-		temp = sensor.get_temp(config.sensor4readings)
+		#temp = sensor.get_temp(config.sensor4readings)
+		temp = 123
 		control.calc(temp)
 		pwm.control_heater(control.freq,control.speed)
 		
