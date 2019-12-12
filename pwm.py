@@ -35,5 +35,5 @@ class class_pwm:  # For monitoring R Pi 4 Cpu
 		self.pwm_out.ChangeDutyCycle(0)
 
 	def control_heater(self,freq,speed):
-		self.pwm_out.ChangeFrequency(self.pwm_freq)
-		self.pwm_out.ChangeDutyCycle(0)
+		self.pwm_out.ChangeFrequency(freq)
+		self.pwm_out.ChangeDutyCycle(speed)
