@@ -49,7 +49,7 @@ else : # no file so file needs to be writen
 	
 config.scan_count = 0
 
-headings = ["Count","Temp","Throttle","Heater Pwm","Pwm Freq"]
+headings = ["Count","Temp","Throttle","Heater Pwm","Pwm Freq","SDLC"]
 log_buffer = class_text_buffer(headings,config)
 
 pwm = class_pwm(config)
@@ -65,6 +65,10 @@ correction = 4.02
 last_fan_state = True
 buffer_increment_flag = False
 refresh_time = 4.2*config.scan_delay
+shut_down_logic_target_reached = False
+shut_down_logic_last_temp_reading = 20
+shut_down_logic_temp_reducing_count = False
+shut_down_logic_count = 0
 
 while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 	try:
@@ -76,19 +80,34 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		control.calc(temp)
 		pwm.control_heater(control.freq,control.speed)
 		
+		# Shutdown Logics
+		if temp > config.min_temp:
+			shut_down_logic_target_reached = True
+		if (control.throttle = 100) and shut_down_logic_target_reached and (temp < shut_down_logic_last_temp_reading)	
+			shut_down_logic_count += 1
+		elif temp > config.min_temp:
+			shut_down_logic_count = 0
+		if  shut_down_logic_count > 10 :
+			call("sudo shutdown -h now", shell=True)
+			
 		# Logging
 		log_buffer.line_values[0] = str(round(config.scan_count,3))
 		log_buffer.line_values[1] = str(temp) + "C"
 		log_buffer.line_values[2] = str(round(control.throttle,1))+ "%"
 		log_buffer.line_values[3] = str(round(control.speed,1))+ "%"
-		log_buffer.line_values[4] = str(round(control.freq,1))+ "Hz"	
+		log_buffer.line_values[4] = str(round(control.freq,1))+ "Hz"
+		log_buffer.line_values[4] = str(shut_down_logic_count)
 		log_buffer.pr(True,0,loop_start_time,refresh_time)
+		
+		#do Shutdown
+		if  shut_down_logic_count > 20 :
+			call("sudo shutdown -h now", shell=True)
 	
 		# Loop Managemnt
 		loop_end_time = datetime.now()
 		loop_time = (loop_end_time - loop_start_time).total_seconds()
 		config.scan_count += 1
-	
+		
 		# Adjust the sleep time to aceive the target loop time and apply
 		# with a slow acting correction added in to gradually improve accuracy
 		if loop_time < config.scan_delay:
