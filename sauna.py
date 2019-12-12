@@ -87,7 +87,8 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 			shut_down_logic_count += 1
 		elif temp > config.min_temp:
 			shut_down_logic_count = 0
-			
+		shut_down_logic_last_temp_reading = temp
+		
 		# Logging
 		log_buffer.line_values[0] = str(round(config.scan_count,3))
 		log_buffer.line_values[1] = str(temp) + "C"
