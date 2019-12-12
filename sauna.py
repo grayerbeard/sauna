@@ -91,7 +91,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		
 		# Logging
 		log_buffer.line_values[0] = str(round(config.scan_count,3))
-		log_buffer.line_values[1] = str(temp) + "C"
+		log_buffer.line_values[1] = str(round(temp,2)) + "C"
 		log_buffer.line_values[2] = str(round(control.throttle,1))+ "%"
 		log_buffer.line_values[3] = str(round(control.speed,1)) + "%"
 		log_buffer.line_values[4] = str(round(control.freq,3)) + "Hz"
