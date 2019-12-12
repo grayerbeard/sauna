@@ -94,7 +94,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		log_buffer.line_values[2] = str(round(control.throttle,1))+ "%"
 		log_buffer.line_values[3] = str(round(control.speed,1)) + "%"
 		log_buffer.line_values[4] = str(round(control.freq,3)) + "Hz"
-		log_buffer.line_values[4] = str(shut_down_logic_count)
+		log_buffer.line_values[5] = str(shut_down_logic_count)
 		log_buffer.pr(True,0,loop_start_time,refresh_time)
 		
 		#do Shutdown
