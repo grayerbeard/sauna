@@ -49,7 +49,7 @@ else : # no file so file needs to be writen
 	
 config.scan_count = 0
 
-headings = ["Count","Temp","Throttle","Heater Pwm","Pwm Freq","SDLC"]
+headings = ["Count","Temp","Throttle","Heater Pwm","Pwm Freq","Change","SDLC"]
 log_buffer = class_text_buffer(headings,config)
 
 pwm = class_pwm(config)
@@ -81,6 +81,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		pwm.control_heater(control.freq,control.speed)
 		
 		# Shutdown Logics
+		change = round(temp - shut_down_logic_last_temp_reading,3)
 		if temp > config.min_temp:
 			shut_down_logic_target_reached = True
 		if (control.throttle == 100) and shut_down_logic_target_reached and (temp < shut_down_logic_last_temp_reading):
@@ -95,7 +96,8 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		log_buffer.line_values[2] = str(round(control.throttle,1))+ "%"
 		log_buffer.line_values[3] = str(round(control.speed,1)) + "%"
 		log_buffer.line_values[4] = str(round(control.freq,3)) + "Hz"
-		log_buffer.line_values[5] = str(shut_down_logic_count)
+		log_buffer.line_values[5] = str(round(change,2)) + "C"
+		log_buffer.line_values[6] = str(shut_down_logic_count)
 		log_buffer.pr(True,0,loop_start_time,refresh_time)
 		
 		#do Shutdown
