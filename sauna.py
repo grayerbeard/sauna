@@ -26,7 +26,6 @@
 from time import sleep as time_sleep
 from os import path
 from datetime import datetime
-import plasma
 
 # Third party imports
 # None
