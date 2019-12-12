@@ -101,7 +101,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		log_buffer.pr(True,0,loop_start_time,refresh_time)
 		
 		#do Shutdown
-		if  shut_down_logic_count > 100 :
+		if  shut_down_logic_count > 15 :
 			call("sudo shutdown -h now", shell=True)
 	
 		# Loop Managemnt
