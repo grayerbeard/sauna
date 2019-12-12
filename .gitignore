@@ -1,10 +1,7 @@
 __pycache__\
-log\
 old\
 *.html
 *.pyc
 *wd.csv
-log\*.csv
-*lg.csv
 *.zip
 
