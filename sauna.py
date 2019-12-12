@@ -83,12 +83,10 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		# Shutdown Logics
 		if temp > config.min_temp:
 			shut_down_logic_target_reached = True
-		if (control.throttle == 100) and shut_down_logic_target_reached and (temp < shut_down_logic_last_temp_reading)	
+		if (control.throttle == 100) and shut_down_logic_target_reached and (temp < shut_down_logic_last_temp_reading):
 			shut_down_logic_count += 1
 		elif temp > config.min_temp:
 			shut_down_logic_count = 0
-		if  shut_down_logic_count > 100 :
-			call("sudo shutdown -h now", shell=True)
 			
 		# Logging
 		log_buffer.line_values[0] = str(round(config.scan_count,3))
@@ -100,7 +98,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		log_buffer.pr(True,0,loop_start_time,refresh_time)
 		
 		#do Shutdown
-		if  shut_down_logic_count > 20 :
+		if  shut_down_logic_count > 100 :
 			call("sudo shutdown -h now", shell=True)
 	
 		# Loop Managemnt
