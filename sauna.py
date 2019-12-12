@@ -77,11 +77,11 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		
 		# Logging
 		log_buffer.line_values[0] = str(round(config.scan_count,3))
-		log_buffer.line_values[1] = str(temp) + "%"
+		log_buffer.line_values[1] = str(temp) + "C"
 		log_buffer.line_values[2] = str(round(control.throttle,1))+ "%"
 		log_buffer.line_values[3] = str(round(control.speed,1))+ "%"
 		log_buffer.line_values[4] = str(round(control.freq,1))+ "Hz"	
-		log_buffer.pr(buffer_increment_flag,0,loop_start_time,refresh_time)
+		log_buffer.pr(True,0,loop_start_time,refresh_time)
 	
 		# Loop Managemnt
 		loop_end_time = datetime.now()
