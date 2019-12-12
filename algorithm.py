@@ -53,4 +53,4 @@ class class_control:  # for calc of freq and speed
 			self.freq = (self.throttle*(self.config.max_freq - self.config.min_freq)/100) + self.config.min_freq
 			self.speed = (self.throttle*(self.config.max_speed - self.config.min_speed)/100) + self.config.min_speed
 			self.heater_on = True
-		print("temp,throttle,speed,freq :",temp,self.throttle,self.speed,self.freq)
+		print("temp,throttle,speed,freq :",round(temp,2),round(self.throttle,2),round(self.speed,2),round(self.freq,2)
