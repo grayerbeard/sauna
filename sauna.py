@@ -84,10 +84,10 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		
 		# Shutdown Logics
 		change = round(temp - shut_down_logic_last_temp_reading,3)
-		if True : #temp > config.min_temp:
+		if temp > config.min_temp:
 			shut_down_logic_target_reached = True
 			message = "Reached"
-			# shut_down_logic_count = 0
+			shut_down_logic_count = 0
 		if (control.throttle == 100) and shut_down_logic_target_reached and (temp < shut_down_logic_last_temp_reading):
 			shut_down_logic_count += 1
 
@@ -104,8 +104,8 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		log_buffer.line_values[7] = message
 		log_buffer.pr(True,0,loop_start_time,refresh_time)
 		
-		#do Shutdown
-		if  shut_down_logic_count > 5 :
+		#do Shutdown if temperature keeps dropping and target reached
+		if  shut_down_logic_count > 10 :
 			call("sudo shutdown -h now", shell=True)
 	
 		# Loop Managemnt
