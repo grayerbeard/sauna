@@ -27,6 +27,7 @@ from time import sleep as time_sleep
 from os import path
 from datetime import datetime
 from sys import exit as sys_exit
+from subprocess import call
 
 # Third party imports
 # None
@@ -83,7 +84,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		
 		# Shutdown Logics
 		change = round(temp - shut_down_logic_last_temp_reading,3)
-		if temp > config.min_temp:
+		if True : #temp > config.min_temp:
 			shut_down_logic_target_reached = True
 			message = "Reached"
 			shut_down_logic_count = 0
