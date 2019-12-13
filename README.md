@@ -1,4 +1,4 @@
-# sauna
+# Electric Sauna Heater Control
 
 ### Notes
 December 11th 2019 
