@@ -86,7 +86,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		change = round(temp - shut_down_logic_last_temp_reading,3)
 		if temp > config.min_temp:
 			shut_down_logic_target_reached = True
-			message = "Reached"
+			message = "Reached" + "Crct : " + str(round(correction,2))
 			shut_down_logic_count = 0
 		if (control.throttle == 100) and shut_down_logic_target_reached and (temp < shut_down_logic_last_temp_reading):
 			shut_down_logic_count += 1
@@ -125,7 +125,8 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 			except ValueError:
 				print("sleep_Time Error value is: ",sleep_time, "loop_time: ",
 				      loop_time,"correction/1000 : ",correction/1000)
-				print("Will do sleep using config.scan_delay")
+				print("Will do sleep using config.scan_delay and reset correction to 4msec")
+				correction = 4
 				time_sleep(config.scan_delay)
 			except Exception:
 				print("some other error with time_sleep try with config.scan_delay")
