@@ -61,7 +61,7 @@ sensor = class_my_sensors(config)
 the_end_time = datetime.now()
 last_total = 0
 loop_time = 0
-correction = 4.02
+correction = 7.5
 # Ensure start right by inc buffer
 last_fan_state = True
 buffer_increment_flag = False
@@ -128,7 +128,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 				print("sleep_Time Error value is: ",sleep_time, "loop_time: ",
 				      loop_time,"correction/1000 : ",correction/1000)
 				print("Will do sleep using config.scan_delay and reset correction to 4msec")
-				correction = 4
+				correction = 7.5
 				time_sleep(config.scan_delay)
 			except Exception:
 				print("some other error with time_sleep try with config.scan_delay")
