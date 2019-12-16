@@ -36,12 +36,12 @@ class class_my_sensors:
 	def __init__(self,config):
 		self.sensor4readings = config.sensor4readings
 
-	def get_temp(self,sensor4readings):
+	def get_temp(self):
 		# gets the temperature of the sensor for readings	
 		found = False
 		sensors = W1ThermSensor.get_available_sensors()
 		for individual_sensor in W1ThermSensor.get_available_sensors():
-			if sensor4readings == individual_sensor.id:
+			if self.sensor4readings == individual_sensor.id:
 				temp = individual_sensor.get_temperature()
 				found = True
 			else:

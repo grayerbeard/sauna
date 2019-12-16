@@ -34,10 +34,12 @@ from subprocess import call
 # Local application imports
 from config import class_config
 from text_buffer import class_text_buffer
-from pwm import class_pwm
+# Note use of pwm_test possible on next line
+from pwm_test import class_pwm
 from utility import fileexists,pr,make_time_text
 from algorithm import class_control
-from sensors import class_my_sensors
+# Note use of sensor_test possible on next line
+from sensor_test import class_my_sensors
 
 #Set up Config file and read it in if present
 config = class_config()
@@ -78,7 +80,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		loop_start_time = datetime.now()
 		
 		# Control
-		temp = sensor.get_temp(config.sensor4readings)
+		temp = sensor.get_temp()
 		control.calc(temp)
 		pwm.control_heater(control.freq,control.speed)
 		
@@ -108,7 +110,8 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		
 		#do Shutdown if temperature keeps dropping and target reached
 		if  shut_down_logic_count > 10 :
-			call("sudo shutdown -h now", shell=True)
+			#call("sudo shutdown -h now", shell=True)
+			print("###################  Shutdown Now  ##########  ")
 	
 		# Loop Managemnt
 		loop_end_time = datetime.now()
@@ -139,11 +142,11 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		the_end_time = datetime.now()
 		last_total = (the_end_time - last_end).total_seconds()
 		error = 1000*(last_total - config.scan_delay)
-		if error < 250*(config.scan_delay)
-			correction = correction + (0.05*error)
+		if error > 250*(config.scan_delay):
 			print("Large Error ignored it was : ",error)
 		else:
-			print("Error : ",error,"  Correction : ", correction)
+			correction = correction + (0.05*error)
+			print("Error correcting OK, Error : ",error,"  Correction : ", correction)
 	except KeyboardInterrupt:
 		print(".........Ctrl+C pressed...")
 		sys_exit()

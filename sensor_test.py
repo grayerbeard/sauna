@@ -27,7 +27,7 @@
 # None
 
 # Third party imports
-from w1thermsensor import W1ThermSensor
+#from w1thermsensor import W1ThermSensor
 
 # Local application imports
 from utility import pr,make_time_text,send_by_ftp
@@ -37,15 +37,15 @@ class class_my_sensors:
 		self.sensor4readings = config.sensor4readings
     
     # set up a dummy value starting at typical ambient temperature
-    self.test_temp = 25
-    self.going_up = True
-    self.turn_around = config.max_temp + 2
+		self.test_temp = 25
+		self.going_up = True
+		self.turn_around = config.max_temp + 4
 
-	def get_temp(self,sensor4readings):
+	def get_temp(self):
 		# gets the temperature of the sensor for readings
     
 		# Comment out all the normal code
-    #found = False
+		#found = False
 		#sensors = W1ThermSensor.get_available_sensors()
 		#for individual_sensor in W1ThermSensor.get_available_sensors():
 		#	if sensor4readings == individual_sensor.id:
@@ -58,11 +58,11 @@ class class_my_sensors:
 		#else:
 		#	return -100
     
-    if self.going_up:
-      self.test_temp += 0.5
-      if if self.test_temp > self.turn_around:
-        self.going_up = False
-    else:
-      self.test_temp -= 0.5
-    
-    return self.test_temp
+		if self.going_up:
+			self.test_temp += 2
+			if self.test_temp > self.turn_around:
+				self.going_up = False
+		else:
+			self.test_temp -= 1
+
+		return self.test_temp
