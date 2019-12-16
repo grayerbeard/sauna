@@ -111,7 +111,6 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		#do Shutdown if temperature keeps dropping and target reached
 		if  shut_down_logic_count > 10 :
 			#call("sudo shutdown -h now", shell=True)
-			print("###################  Shutdown Now  ##########  ")
 	
 		# Loop Managemnt
 		loop_end_time = datetime.now()
@@ -145,8 +144,9 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		if error > 250*(config.scan_delay):
 			print("Large Error ignored it was : ",error)
 		else:
-			correction = correction + (0.05*error)
-			print("Error correcting OK, Error : ",error,"  Correction : ", correction)
+			correction = correction + (0.15*error)
+			# Following for looking at error correctoion
+			# print("Error correcting OK, Error : ",error,"  Correction : ", correction)
 	except KeyboardInterrupt:
 		print(".........Ctrl+C pressed...")
 		sys_exit()
