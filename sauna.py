@@ -35,7 +35,7 @@ from subprocess import call
 from config import class_config
 from text_buffer import class_text_buffer
 # Note use of pwm_test possible on next line
-from pwm_test import class_pwm
+from pwm import class_pwm
 from utility import fileexists,pr,make_time_text
 from algorithm import class_control
 # Note use of sensor_test possible on next line
