@@ -37,11 +37,11 @@ run by doing a reboot or by going to /sauna and entering ./tmux_start.sh.  Code 
 So you can hardly sit at the sauna with a keyboard and monitor so the idea is toi run the pi in what is called headless mode.
 There is a lot of help on line about doing this e.g. [www.raspberrypi.org/documentation/configuration/wireless/headless.md](https://www.raspberrypi.org/documentation/configuration/wireless/headless.md)
 
-Hardware:
-I do NOT recomend this mains voltage wiring for anyone without the necsessary engineering knowledge.  However you could build and test all the low voltag e parts and then ask a qualified person to install it. 
+### Hardware:
+I do NOT recomend this mains voltage wiring for anyone without the necsessary electric safe knowledge; alternativly you could build and test all the low voltage parts and then ask a qualified person to install it. 
 
-* Connect GPIO 18 to an SSR. If you Google for "Solid State Relay 240v". You will find a suitable item.  This is a solid state switch.
-* The SSR input is 3 to 32 volts DC usually 30ma which is too much for an R Pi to drive directly.  You need to buffer via a small relay or transister and drive with 5 volts via a resister.
+* Connect GT Pi PIO 18 to an SSR; if you Google for "Solid State Relay 240v". You will find a suitable item.  This is a solid state switch that you wire into the live wire powering the Sauna Stovve.
+* The SSR input, from the R Pi that turns it on and off) is 3 to 32 volts DC usually 30ma which is too much for an R Pi to drive directly.  You need to buffer via a small relay or transister and drive with 5 volts via a resister. 
 * Connect temperature probe. For these Google for "DS18b20 Waterproof Temperature Sensors" and you will find multiple suppliers.  Typically you can get 5 for around £10 but of course you only need one.  Position it behind the Temperature gauge as there I found I could drill the necessary small hole from the outside and it would be at about the right position and out of sighte.
 * I put the R Pi and relay on the top of the sauna next to the existing JB for the electrical power to the stove.
 * Our procedure is to turn on the supply at the wall, that powers up the R Pi and it boots up in a minute or two and the software starts automaticly bvia a TMUX command places in /etc/rc.local.
