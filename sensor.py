@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# title           :sensors.py
+# title           :sensor.py
 # description     :get temperature of the temp sensor
 # author          :David Torrens
 # start date      :2019 12 12
