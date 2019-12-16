@@ -117,7 +117,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		
 		# Adjust the sleep time to aceive the target loop time and apply
 		# with a slow acting correction added in to gradually improve accuracy
-		if loop_time < config.scan_delay:
+		if loop_time < (config.scan_delay - (correction/1000)):
 			sleep_time = config.scan_delay - loop_time - (correction/1000)
 			try:
 				time_sleep(sleep_time)
@@ -127,18 +127,23 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 			except ValueError:
 				print("sleep_Time Error value is: ",sleep_time, "loop_time: ",
 				      loop_time,"correction/1000 : ",correction/1000)
-				print("Will do sleep using config.scan_delay and reset correction to 4msec")
+				print("Will do sleep using config.scan_delay and reset correction to 7.5msec")
 				correction = 7.5
 				time_sleep(config.scan_delay)
 			except Exception:
 				print("some other error with time_sleep try with config.scan_delay")
 				time_sleep(config.scan_delay) 
+		else:
+			time_sleep(config.scan_delay)
 		last_end = the_end_time
 		the_end_time = datetime.now()
 		last_total = (the_end_time - last_end).total_seconds()
 		error = 1000*(last_total - config.scan_delay)
-		correction = correction + (0.05*error)
-		#print("Error : ",1000*(last_total - 5),correction)
+		if error < 250*(config.scan_delay)
+			correction = correction + (0.05*error)
+			print("Large Error ignored it was : ",error)
+		else:
+			print("Error : ",error,"  Correction : ", correction)
 	except KeyboardInterrupt:
 		print(".........Ctrl+C pressed...")
 		sys_exit()
