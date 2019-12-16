@@ -1,6 +1,12 @@
 # Electric Sauna Heater Control
 
 ### Notes
+### December 14th to 16th
+Tested Ok at higher temperature settings min 70 max 80 with min speed over 80 at 20%.
+This was considered Ok although could be very slightly too high.
+Monor debugs of the auto shurdown system (this shuts down the R Pi automatically when the stove is switched off at the stove).
+That auto shutdown means dont need to shut down the R Pi via a terminal after usung sauna.
+
 #### December 11th 2019 
 Starting to adapt the fanshiim pwm code to control sauna heater
 will need to use some of code from old sauna code see other repository
