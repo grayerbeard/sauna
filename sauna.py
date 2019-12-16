@@ -39,7 +39,7 @@ from pwm import class_pwm
 from utility import fileexists,pr,make_time_text
 from algorithm import class_control
 # Note use of sensor_test possible on next line
-from sensor_test import class_my_sensors
+from sensor import class_my_sensors
 
 #Set up Config file and read it in if present
 config = class_config()
