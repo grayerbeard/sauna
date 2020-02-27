@@ -1,6 +1,8 @@
 # Electric Sauna Heater Control
 
 ### Notes
+### February 27th 2020
+Note tat in practice the settings of 70 and 80 results in the Sauna temperature staying in the range of about 70 to 75; a temperature range widely considered to be ideal.
 #### December 14th to 16th
 Tested Ok at higher temperature settings min 70 max 80 with min speed over 80 at 20%.
 This was considered Ok although could be very slightly too high.
