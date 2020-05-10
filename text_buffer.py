@@ -63,7 +63,7 @@ class class_text_buffer(object):
 
 		self.__html_filename = config.prog_name + "_log.html"
 		self.__html_filename_save_as = config.prog_path + self.__html_filename
-		self.__www_filename = config.local_dir_www +  self.__html_filename  
+		self.__www_filename = config.local_dir_www + "/" + self.__html_filename
 		self.__ftp_creds = config.ftp_creds_filename
 		self.__send_html_count = 0
 		if self.__config.log_buffer_flag:
@@ -99,20 +99,17 @@ class class_text_buffer(object):
 		#print("Buffer updated and log buffer flag is : ",self.__config.log_buffer_flag)
 		if self.__config.log_buffer_flag:
 			self.__log.log_to_file(self.__headings,values)
-			if fileexists(self.__config.local_dir_www):
+			if fileexists(self.__www_filename):
 				try:
 					self.__log.copy_log_to_www(False)
 				except:
-					print("Failed to copy log file to: ",self.__config.local_dir_www)
+					print("Failed to copy log file to www because this not there: ",self.__www_filename)
 			#send log file to website configevery ten scans
 			if self.__send_log_count > 10 and fileexists(self.__ftp_creds):
-				#print("Sending log file by FTP")
 				self.__log.send_log_by_ftp(False,self.__config.log_directory,self.__config.ftp_timeout)
 				self.__send_log_count = 0
 			else:
-				#print("not FTP This Time count is : ",self.__send_log_count)
 				self.__send_log_count += 1
-
  
 	def get_line_dta(self, key):
 		#return stored element from position relative to current insert position in buffer

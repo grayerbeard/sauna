@@ -19,7 +19,7 @@
 # description     :pwm control for R Pi Cooling Fan, main progrm
 # author          :David Torrens
 # start date      :2019 12 12
-# version         :0.1
+# version         :0.2 May 2020
 # python_version  :3
 
 # Standard library imports
@@ -88,10 +88,10 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		change = round(temp - shut_down_logic_last_temp_reading,3)
 		if temp > config.min_temp:
 			shut_down_logic_target_reached = True
-			message = "Over Min Temp" + "  Crct : " + str(round(correction,2))
-			shut_down_logic_count = 0
+			message = "Over Min Temp and loop time Correction is: " + str(round(correction,2))
+			shut_down_logic_count = 0 
 		else:
-			message = "Under Min Temp" + "  Crct : " + str(round(correction,2))
+			message = "Under Min Temp and loop time Correction is: " + str(round(correction,2))
 		if (control.throttle == 100) and shut_down_logic_target_reached and (temp < shut_down_logic_last_temp_reading):
 			shut_down_logic_count += 1
 
@@ -103,7 +103,7 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 		log_buffer.line_values[2] = str(round(control.throttle,1))+ "%"
 		log_buffer.line_values[3] = str(round(control.speed,1)) + "%"
 		log_buffer.line_values[4] = str(round(control.freq,3)) + "Hz"
-		log_buffer.line_values[5] = str(round(change,2)) + "C"
+		log_buffer.line_values[5] = str(round(change,2)) + " Shut Down Count: "
 		log_buffer.line_values[6] = str(shut_down_logic_count)
 		log_buffer.line_values[7] = message
 		log_buffer.pr(True,0,loop_start_time,refresh_time)

@@ -36,7 +36,7 @@ from ftplib import FTP
 # None
 
 # Standard or Installed Modules
-# none
+from datetime import datetime
 
 def in_GUI_mode():
 	mode = 1
@@ -108,10 +108,9 @@ def send_by_ftp(dbug_send_ftp,ftp_cred,send_filename, save_as_filename, ftp_remo
 	result = ["FTP attempt for :" + send_filename]
 	
 	# Use Following two lines for debug to check parameters received by send_by_ftp
-	#print("send_by_ftp: dbug_send_ftp: ",dbug_send_ftp," ftp_cred: ", ftp_cred, \
+	# print("ftp_timeout: ", ftp_timeout,"dbug_send_ftp: ",dbug_send_ftp," ftp_cred: ", ftp_cred, \
 	#	" send_filename: ",send_filename, "save_as_filename: ",save_as_filename, "ftp_remote_dir: ",ftp_remote_dir)
-
-
+	start_time = datetime.now()
 	try:
 		with open(ftp_cred, 'r') as csvfile:
 			cred_file = csv_DictReader(csvfile)
@@ -154,6 +153,8 @@ def send_by_ftp(dbug_send_ftp,ftp_cred,send_filename, save_as_filename, ftp_remo
 		ftp.quit()
 		pr(dbug_send_ftp,here, "ftp quitedfrom : ", ftp_site)
 		pr(dbug_send_ftp,here,"Done FTP",save_as_filename)
+		# Use following line to show how long FTP is taking
+		# print("ftp time taken", round((datetime.now() - start_time).total_seconds(),2))
 		return(result)
 	except:
 		pr(dbug_send_ftp,here,"Failed FTP",save_as_filename)

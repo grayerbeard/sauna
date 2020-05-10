@@ -50,7 +50,7 @@ class class_config:
 		self.max_scans = 0			# number of scans to do, set to zero to scan for ever (until type "ctrl C")
 	# Log
 		self.log_directory = "log/"	# where to store log files
-		self.local_dir_www = "/var/www/html/" # default value for local web folder
+		self.local_dir_www = "/var/www/html" # default value for local web folder
 		self.log_buffer_flag = True	 # whether to generate the csv log file as well as the html text file	
 		self.text_buffer_length = 15	# number of lines in the text buffer in the html file	
 	# Ftp

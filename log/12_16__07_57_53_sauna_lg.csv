@@ -1,6 +1,0 @@
-Time,Count,Temp,Throttle,Heater Pwm,Pwm Freq,Change,SDLC,Debug Message,
-16/12/2019 07:57:53,0,19.62C,100%,100.0%,0.33Hz,-0.38C,0,Under Min Temp  Crct : 7.5,
-16/12/2019 07:58:03,1,19.62C,100%,100.0%,0.33Hz,0.0C,0,Under Min Temp  Crct : 7.62,
-16/12/2019 07:58:13,2,19.62C,100%,100.0%,0.33Hz,0.0C,0,Under Min Temp  Crct : 7.73,
-16/12/2019 07:58:23,3,19.62C,100%,100.0%,0.33Hz,0.0C,0,Under Min Temp  Crct : 7.84,
-16/12/2019 07:58:33,4,19.62C,100%,100.0%,0.33Hz,0.0C,0,Under Min Temp  Crct : 7.94,
