@@ -73,6 +73,7 @@ shut_down_logic_last_temp_reading = 20
 shut_down_logic_temp_reducing_count = False
 shut_down_logic_count = 0
 message = "Not Yet"
+print("########################################################################### !!!!! May 11th")
 
 while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 	try:
@@ -124,7 +125,9 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 			try:
 				time_sleep(sleep_time)
 			except KeyboardInterrupt:
-				print("........Ctrl+C pressed...")
+				print(".........Ctrl+C pressed... Output Off")
+				pwm.control_heater(control.freq,0)
+				time_sleep(10)
 				sys_exit()
 			except ValueError:
 				print("sleep_Time Error value is: ",sleep_time, "loop_time: ",
@@ -148,7 +151,9 @@ while (config.scan_count <= config.max_scans) or (config.max_scans == 0):
 			# Following for looking at error correctoion
 			# print("Error correcting OK, Error : ",error,"  Correction : ", correction)
 	except KeyboardInterrupt:
-		print(".........Ctrl+C pressed...")
+		print(".........Ctrl+C pressed... Output Off")
+		pwm.control_heater(control.freq,0)
+		time_sleep(10) 
 		sys_exit()
 
 	
