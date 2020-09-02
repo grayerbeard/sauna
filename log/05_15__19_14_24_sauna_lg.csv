@@ -1,0 +1,8 @@
+Time,Count,Temp,Throttle,Heater Pwm,Pwm Freq,Change,SDLC,Debug Message,
+15/05/2020 19:14:24,0,16.88C,100%,100.0%,0.33Hz,-3.12 Shut Down Count: ,0,Under Min Temp and loop time Correction is: 7.5,
+15/05/2020 19:14:34,1,16.88C,100%,100.0%,0.33Hz,0.0 Shut Down Count: ,0,Under Min Temp and loop time Correction is: 8.05,
+15/05/2020 19:14:44,2,16.88C,100%,100.0%,0.33Hz,0.0 Shut Down Count: ,0,Under Min Temp and loop time Correction is: 8.28,
+15/05/2020 19:14:54,3,16.88C,100%,100.0%,0.33Hz,0.0 Shut Down Count: ,0,Under Min Temp and loop time Correction is: 8.48,
+15/05/2020 19:15:04,4,16.88C,100%,100.0%,0.33Hz,0.0 Shut Down Count: ,0,Under Min Temp and loop time Correction is: 8.6,
+15/05/2020 19:15:14,5,16.94C,100%,100.0%,0.33Hz,0.06 Shut Down Count: ,0,Under Min Temp and loop time Correction is: 8.75,
+15/05/2020 19:15:24,6,16.94C,100%,100.0%,0.33Hz,0.0 Shut Down Count: ,0,Under Min Temp and loop time Correction is: 7.61,

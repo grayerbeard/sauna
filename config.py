@@ -67,6 +67,10 @@ class class_config:
 		self.max_freq = 4.0
 		self.sauna_GPIO_port = 18
 		self.sensor4readings = "0315a80584ff"
+	# mqtt
+		self.broker_address = "192.168.0.120" # Change to suite your brokers address
+		self.broker_port = 1883 # Check on server port being used 'sudo netstat -l -t'
+		self.topic = "House/test"
 		
 # End of items set in config.cfg	
 
@@ -94,7 +98,7 @@ class class_config:
 		section = "Ftp"
 		self.ftp_creds_filename = config_read.get(section, 'ftp_creds_filename') 
 		self.ftp_log_max_count = float(config_read.get(section, 'ftp_log_max_count'))
-		section = "Sauna"		
+		section = "Sauna"
 		self.max_temp =  float(config_read.get(section, 'max_temp'))
 		self.min_temp =  float(config_read.get(section, 'min_temp'))
 		self.min_speed =  float(config_read.get(section, 'min_speed'))
@@ -103,6 +107,10 @@ class class_config:
 		self.max_freq =  float(config_read.get(section, 'max_freq'))
 		self.sauna_GPIO_port =  int(config_read.get(section, 'sauna_GPIO_port'))
 		self.sensor4readings =  str(config_read.get(section, 'sensor4readings'))
+		section = "mqtt"
+		self.broker_address = str(config_read.get(section, 'broker_address'))
+		self.broker_port = int(config_read.get(section, 'broker_port'))
+		self.topic = str(config_read.get(section, 'topic'))
 		return
 
 	def write_file(self):
@@ -132,7 +140,11 @@ class class_config:
 		config_write.set(section, 'max_freq',self.max_freq)
 		config_write.set(section, 'sauna_GPIO_port',self.sauna_GPIO_port)
 		config_write.set(section, 'sensor4readings',self.sensor4readings)
-		
+		section = "mqtt"
+		config_write.add_section(section)
+		config_write.set(section, 'broker_address',self.broker_address)
+		config_write.set(section, 'broker_port',self.broker_port)
+		config_write.set(section, 'topic',self.topic)
 		# Writing our configuration file to 'self.config_filename'
 		pr(self.dbug, here, "ready to write new config file with default values: " , self.config_filename)
 		with open(self.config_filename, 'w+') as configfile:

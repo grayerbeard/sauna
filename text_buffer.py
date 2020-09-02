@@ -30,6 +30,12 @@ from shutil import copyfile
 from sys import exit as sys_exit
 import os
 
+import paho.mqtt.client as mqtt
+#from time import sleep as time_sleep
+#from utility import make_time_text,fileexists
+#from datetime import datetime
+#from sys import exit as sys_exit
+
 # Third party imports
 # None
 
@@ -69,7 +75,13 @@ class class_text_buffer(object):
 		if self.__config.log_buffer_flag:
 			self.__send_log_count = 0
 			self.__log = class_buffer_log(config)
-		
+			
+		try:
+			self.__mqttc = mqtt.Client("python_pub")
+			self.__mqttc.connect(self.__config.broker_address, self.__config.broker_port) # use the ip of your rpi here
+		except:
+			print("mqtt cant connect")
+			
 	def size(self):
 		return self.__config.text_buffer_length
 
@@ -210,7 +222,14 @@ class class_text_buffer(object):
 		except:
 			print("Not able to copy : ",self.__html_filename, " to ", self.__www_filename)
 		
+		message =  self.line_values[1]
 		
+		try:
+			self.__mqttc.publish(self.__config.topic,message,retain=True)
+			self.__mqttc.loop(2) #timeout = 2s
+		except:
+			print("Mqtt cant send")
+				
 		if fileexists(self.__ftp_creds):
 			if self.__send_html_count >= 3:
 				# To debug FTP change end of following line to " = True"   !!!!!!!!!!!! 
